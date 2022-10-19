@@ -1,4 +1,3 @@
-const fs = require("fs");
 module.exports.config = {
 	name: "cony",
 	version: "1.0.0", 

@@ -8,7 +8,7 @@ module.exports.config = {
   usages: "",
   cooldowns: 0
 };
-const totalPath = __dirname + '/cache/totalChat.json';
+const totalPath = __dirname + '/data/totalChat.json';
 const _24hours = 86400000;
 const fs = require("fs-extra");
 function handleByte(byte) {
@@ -36,7 +36,7 @@ function handleOS(ping) {
 module.exports.onLoad = function() {
     const { writeFileSync, existsSync } = require('fs-extra');
     const { resolve } = require("path");
-    const path = resolve(__dirname, 'cache', 'data.json');
+    const path = resolve(__dirname, 'data', 'data.json');
     if (!existsSync(path)) {
         const obj = {
             adminbox: {}
@@ -141,7 +141,7 @@ api.logout()
         case "6": {
           const { writeFileSync } = global.nodemodule["fs-extra"];
         const { resolve } = require("path");
-        const pathData = resolve(__dirname, 'cache', 'data.json');
+        const pathData = resolve(__dirname, 'data', 'data.json');
         const database = require(pathData);
         const { adminbox } = database;  
         if (adminbox[threadID] == true) {

@@ -12,7 +12,7 @@ module.exports.config = {
 module.exports.onLoad = () => {
     const { existsSync, writeFileSync } = global.nodemodule["fs-extra"];
     const { join } = global.nodemodule["path"];
-    const pathData = join(__dirname, "cache", "autosetname.json");
+    const pathData = join(__dirname, "data", "autosetname.json");
     if (!existsSync(pathData)) return writeFileSync(pathData, "[]", "utf-8"); 
 }
 
@@ -21,7 +21,7 @@ module.exports.run = async function  ({ event, api, args, permssionm, Users })  
     const { readFileSync, writeFileSync } = global.nodemodule["fs-extra"];
     const { join } = global.nodemodule["path"];
 
-    const pathData = join(__dirname, "cache", "autosetname.json");
+    const pathData = join(__dirname, "data", "autosetname.json");
     const content = (args.slice(1, args.length)).join(" ");
     var dataJson = JSON.parse(readFileSync(pathData, "utf-8"));
     var thisThread = dataJson.find(item => item.threadID == threadID) || { threadID, nameUser: [] };

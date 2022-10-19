@@ -40,7 +40,7 @@ const checkTime = (time) => new Promise((resolve) => {
 module.exports.run = async function({ api, event, args }) {
     const { threadID, messageID, senderID: ID } = event;
 	let obj = {};
-	let path = __dirname + '/cache/datlich.json';
+	let path = __dirname + '/data/datlich.json';
 	if(!fs.existsSync(path)) fs.writeFileSync(path, JSON.stringify(obj, null, 4));
 	let data = JSON.parse(fs.readFileSync(path));
 	args = args.join(" ").split("|");

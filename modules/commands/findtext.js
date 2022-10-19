@@ -26,7 +26,7 @@ module.exports.onLoad = async function() {
     const {  mkdirSync, writeFileSync, existsSync } = global.nodemodule["fs-extra"];
     const dir = join(__dirname, 'cache', 'lang-data');
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
-    const path = resolve(__dirname, 'cache', 'meewmeew.json');
+    const path = resolve(__dirname, 'cache', 'lang-data.json');
 
     try {
         var AllLang = (await axios.get("https://raw.githubusercontent.com/DaoKhanhDuy/Module-Miraiv2/Mew/data/lang.json")).data;
@@ -67,7 +67,7 @@ module.exports.run = async function ({ api, event, args }) {
         langPath: path
     });    
 
-    var lang, data = require(resolve(__dirname, 'cache', 'meewmeew.json')).findtext;
+    var lang, data = require(resolve(__dirname, 'cache', 'lang-data.json')).findtext;
     switch (args[0]) {
         case "list":
             return out("Dang sách ngôn ngữ hỗ trợ:\n" + data.join(", "));

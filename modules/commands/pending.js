@@ -34,8 +34,8 @@ module.exports.onLoad = async() => {
     const { resolve } = global.nodemodule["path"];
     const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
     const { downloadFile } = global.utils;
-    const dirMaterial = __dirname + `/cache/rankup/`;
-    const path = resolve(__dirname, 'cache/rankup', 'join.png');
+    const dirMaterial = __dirname + `/cache/`;
+    const path = resolve(__dirname, 'cache', 'pending.png');
     if (!existsSync(path)) await downloadFile("https://i.imgur.com/5dILqdq.jpg", path);
 }
 
@@ -60,7 +60,7 @@ module.exports.handleReply = async function({ api, event, handleReply, getText }
         for (const singleIndex of index) {
             if (isNaN(singleIndex) || singleIndex <= 0 || singleIndex > handleReply.pending.length) return api.sendMessage(getText("invaildNumber", singleIndex), threadID, messageID);
             api.changeNickname(`[ ${global.config.PREFIX} ] • ${(!global.config.BOTNAME) ? "Nino Cute" : global.config.BOTNAME}`,handleReply.pending[singleIndex - 1].threadID, api.getCurrentUserID());
-            api.sendMessage({body: `Nhóm của bạn đã được kích hoạt thành công \nCảm ơn các bạn đã sử dụng Hệ thống BotChat Messenger của mình \nDưới đây là một vài chú ý nhỏ trước khi sử dụng:`, attachment: fs.createReadStream(__dirname + '/cache/rankup/join.png')}, handleReply.pending[singleIndex - 1].threadID);
+            api.sendMessage({body: `Nhóm của bạn đã được kích hoạt thành công \nCảm ơn các bạn đã sử dụng Hệ thống BotChat Messenger của mình \nDưới đây là một vài chú ý nhỏ trước khi sử dụng:`, attachment: fs.createReadStream(__dirname + '/cache/pending.png')}, handleReply.pending[singleIndex - 1].threadID);
             count+=1;
         }
         return api.sendMessage(getText("approveSuccess", count), threadID, messageID);

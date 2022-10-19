@@ -14,14 +14,14 @@ module.exports.config = {
 
 module.exports.onLoad = () => {
 	const { existsSync, writeFileSync } = global.nodemodule["fs-extra"];
-	if (!existsSync(__dirname + "/cache/shortcut.json")) writeFileSync(__dirname + "/cache/shortcut.json", JSON.stringify([]), 'utf-8');
+	if (!existsSync(__dirname + "/data/shortcut.json")) writeFileSync(__dirname + "/data/shortcut.json", JSON.stringify([]), 'utf-8');
 	return;
 }
 
 module.exports.handleEvent = function({ api, event }) {
 	const { readFileSync } = global.nodemodule["fs-extra"]; 
 	if (event.type !== "message_unsend" && event.body.length !== -1) {
-		const shortcut = JSON.parse(readFileSync(__dirname + "/cache/shortcut.json"));
+		const shortcut = JSON.parse(readFileSync(__dirname + "/data/shortcut.json"));
 		if (shortcut.some(item => item.id == event.threadID)) {
 			const getThread = shortcut.find(item => item.id == event.threadID).shorts;
 			if (getThread.some(item => item.in == event.body)) {
@@ -44,17 +44,17 @@ module.exports.run = function({ api, event, args }) {
 	if (content.indexOf(`del`) == 0) {
 		let delThis = content.slice(4, content.length);
 		if (!delThis) return api.sendMessage("Không tìm thấy shortcut bạn cần xóa", threadID, messageID);
-		return readFile(__dirname + "/cache/shortcut.json", "utf-8", (err, data) => {
+		return readFile(__dirname + "/data/shortcut.json", "utf-8", (err, data) => {
 			if (err) throw err;
 			var oldData = JSON.parse(data);
 			var getThread = oldData.find(item => item.id == threadID).shorts;
 			if (!getThread.some(item => item.in == delThis)) return api.sendMessage("Không tìm thấy shortcut bạn cần xóa", threadID, messageID);
 			getThread.splice(getThread.findIndex(item => item.in === delThis), 1);
-			writeFile(__dirname + "/cache/shortcut.json", JSON.stringify(oldData), "utf-8", (err) => (err) ? console.error(err) : api.sendMessage("Đã xóa shortcut thành công!", threadID, messageID));
+			writeFile(__dirname + "/data/shortcut.json", JSON.stringify(oldData), "utf-8", (err) => (err) ? console.error(err) : api.sendMessage("Đã xóa shortcut thành công!", threadID, messageID));
 		});
 	}
 	else if (content.indexOf(`all`) == 0)
-		return readFile(__dirname + "/cache/shortcut.json", "utf-8", (err, data) => {
+		return readFile(__dirname + "/data/shortcut.json", "utf-8", (err, data) => {
 			if (err) throw err;
 			let allData = JSON.parse(data);
 			let msg = '';
@@ -74,7 +74,7 @@ module.exports.run = function({ api, event, args }) {
 		if (shortin == shortout) return api.sendMessage("2 input và output giống nhau", threadID, messageID);
 		if (!shortin) return api.sendMessage("Thiếu input", threadID, messageID);
 		if (!shortout) return api.sendMessage("Thiếu output", threadID, messageID);
-		return readFile(__dirname + "/cache/shortcut.json", "utf-8", (err, data) => {
+		return readFile(__dirname + "/data/shortcut.json", "utf-8", (err, data) => {
 			if (err) throw err;
 			var oldData = JSON.parse(data);
 			if (!oldData.some(item => item.id == threadID)) {
@@ -84,7 +84,7 @@ module.exports.run = function({ api, event, args }) {
 				}
 				addThis.shorts.push({ in: shortin, out: shortout });
 				oldData.push(addThis);
-				return writeFile(__dirname + "/cache/shortcut.json", JSON.stringify(oldData), "utf-8", (err) => (err) ? console.error(err) : api.sendMessage("Tạo shortcut thành công", threadID, messageID));
+				return writeFile(__dirname + "/data/shortcut.json", JSON.stringify(oldData), "utf-8", (err) => (err) ? console.error(err) : api.sendMessage("Tạo shortcut thành công", threadID, messageID));
 			}
 			else {
 				let getShort = oldData.find(item => item.id == threadID);
@@ -93,10 +93,10 @@ module.exports.run = function({ api, event, args }) {
 					let output = getShort.shorts.find(item => item.in == shortin).out;
 					getShort.shorts[index].out = output + " | " + shortout;
 					api.sendMessage("Shortcut đã tồn tại trong group này", threadID, messageID);
-					return writeFile(__dirname + "/cache/shortcut.json", JSON.stringify(oldData), "utf-8");
+					return writeFile(__dirname + "/data/shortcut.json", JSON.stringify(oldData), "utf-8");
 				}
 				getShort.shorts.push({ in: shortin, out: shortout });
-				return writeFile(__dirname + "/cache/shortcut.json", JSON.stringify(oldData), "utf-8", (err) => (err) ? console.error(err) : api.sendMessage("Tạo shortcut thành công", threadID, messageID));
+				return writeFile(__dirname + "/data/shortcut.json", JSON.stringify(oldData), "utf-8", (err) => (err) ? console.error(err) : api.sendMessage("Tạo shortcut thành công", threadID, messageID));
 			}
 		});
 	}

@@ -10,6 +10,7 @@ module.exports.config = {
 	}
 };
 const fs = require('fs');
+fs.mkdirSync(__dirname + "/cache/leaveGif", { recursive: true })
 module.exports.onLoad = async() => {
     const { resolve } = global.nodemodule["path"];
     const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];

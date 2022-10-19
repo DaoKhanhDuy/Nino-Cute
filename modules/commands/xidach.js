@@ -117,9 +117,7 @@ module.exports.cards = {
 
 module.exports.onLoad = async () => {
 	const fs = require("fs");
-	await require('axios').get("https://raw.githubusercontent.com/RFS-ADRENO/mirai-modules/main/version.json").then(res => {
-		if (res.data["xidach_x034"] != this.config.version) console.log("-XIDACH ĐÃ CÓ PHIÊN BẢN MỚI, LIÊN HỆ DungUwU ĐỂ ĐƯỢC CẬP NHẬT-");
-	})
+	
 	let path = __dirname + '/cache/poker/';
 	if (!fs.existsSync(path)) fs.mkdirSync(path, { recursive: true });
 	await require("axios").get("https://raw.githubusercontent.com/RFS-ADRENO/base64_poker/main/data.json").then(async (res) => {

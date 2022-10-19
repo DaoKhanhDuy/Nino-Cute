@@ -9,22 +9,23 @@ module.exports.config = {
 	}
 };
 
-const fs = require('fs');
 module.exports.onLoad = async() => {
-    const { resolve } = global.nodemodule["path"];
+    const { resolve, join } = global.nodemodule["path"];
     const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
+    mkdirSync(__dirname + "/cache/joinGif", { recursive: true })
     const { downloadFile } = global.utils;
-    const dirMaterial = __dirname + `/cache/joinGif/`;
-    const path = resolve(dirMaterial, 'join.gif');
-    const path1 = resolve(dirMaterial, 'join.png');
-    if (!existsSync(path)) await downloadFile("https://i.imgur.com/bvLe7or.gif", path);
-    if (!existsSync(path1)) await downloadFile("https://i.imgur.com/5dILqdq.jpg", path1);
+    const path = join(__dirname, "cache", "joinGif");
+    const pathGif = join(path, 'join.gif');
+    const pathPng = join(path, 'join.png');
+    if (!existsSync(pathGif)) await downloadFile("https://i.imgur.com/bvLe7or.gif", pathGif);
+    if (!existsSync(pathPng)) await downloadFile("https://i.imgur.com/5dILqdq.jpg", pathPng);
     
 }
 
 
 module.exports.run = async function({ api, event, Users }) {
 	const { join } = global.nodemodule["path"];
+	const fs = global.nodemodule["fs-extra"];
 	const { threadID } = event;
 	if (event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
 		api.changeNickname(`[ ${global.config.PREFIX} ] • ${(!global.config.BOTNAME) ? "Nino Cute" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());

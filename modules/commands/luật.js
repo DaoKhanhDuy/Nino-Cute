@@ -16,7 +16,7 @@
 module.exports.onLoad = () => {
     const { existsSync, writeFileSync } = global.nodemodule["fs-extra"];
     const { join } = global.nodemodule["path"];
-    const pathData = join(__dirname, "cache", "rules.json");
+    const pathData = join(__dirname, "data", "rules.json");
     if (!existsSync(pathData)) return writeFileSync(pathData, "[]", "utf-8"); 
 }
 
@@ -25,13 +25,14 @@ module.exports.run = ({ event, api, args, permssion }) => {
     const { readFileSync, writeFileSync } = global.nodemodule["fs-extra"];
     const { join } = global.nodemodule["path"];
 
-    const pathData = join(__dirname, "cache", "rules.json");
+    const pathData = join(__dirname, "data", "rules.json");
     const content = (args.slice(1, args.length)).join(" ");
     var dataJson = JSON.parse(readFileSync(pathData, "utf-8"));
     var thisThread = dataJson.find(item => item.threadID == threadID) || { threadID, listRule: [] };
 
     switch (args[0]) {
-        case "thêm": {
+        case "thêm":
+        case "add": {
             if (permssion == 0) return api.sendMessage("[Rule] Bạn không đủ quyền hạn để có thể sử dụng thêm luật!", threadID, messageID);
             if (content.length == 0) return api.sendMessage("[Rule] Phần nhập thông tin không được để trống", threadID, messageID);
             if (content.indexOf("\n") != -1) {

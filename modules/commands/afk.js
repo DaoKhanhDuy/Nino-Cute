@@ -9,7 +9,7 @@ module.exports.config = {
     cooldowns: 5
 };
 
-const afkPath = __dirname + '/cache/afk.json';
+const afkPath = __dirname + '/data/afk.json';
 const fs = require('fs');
 
 module.exports.onLoad = () => {
